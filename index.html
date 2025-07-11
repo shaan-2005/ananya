@@ -226,6 +226,8 @@ So happy birthday and I love you!!! Dekh bol diya 😂
 Enjoy your day and infact enjoy every single day of your life. And , faaltu cheeze ki zyada tension mat liya kar 
 
 Also you’re SO old now 😂 (mazaak mazaak... thoda hi).
+    
+I hope you have your volume up and I hope you understand why I used this song 😂
 
 I really can’t wait to meet you in a few days, it’s been way too long and I miss you way too much.
 Just remember, I’m really really lucky to have you by my side , thank you for being the most wonderful part of my life.
@@ -246,20 +248,22 @@ So once again, Happy Birthday and I love you 💗
 </audio>
 
 <!-- Scripts -->
-<script>
+script>
   function startExperience() {
     document.querySelector('.start-screen').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
     document.getElementById('bgMusic').play();
     launchConfetti();
+    showSlides(); // Start slideshow when experience starts
   }
 
   // Slideshow
-  <script>
   let slideIndex = 0;
-  const slides = document.querySelectorAll(".fade");
+  let slides;
 
   function showSlides() {
+    if (!slides) slides = document.querySelectorAll(".fade");
+
     slides.forEach((slide, index) => {
       slide.classList.remove("active");
       if (index === slideIndex) {
@@ -268,10 +272,8 @@ So once again, Happy Birthday and I love you 💗
     });
 
     slideIndex = (slideIndex + 1) % slides.length;
-    setTimeout(showSlides, 3000); // Change slide every 3s
+    setTimeout(showSlides, 3000); // Loop forever
   }
-
-  showSlides();
 </script>
 
   // Kisses + Fireworks
