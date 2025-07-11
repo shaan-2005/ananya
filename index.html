@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday 💖</title>
   <style>
     body {
@@ -9,7 +10,7 @@
       font-family: 'Segoe UI', sans-serif;
       background-color: #fff0f5;
       color: #333;
-      text-align: center;
+      overflow-x: hidden;
     }
 
     .start-screen {
@@ -19,6 +20,7 @@
       justify-content: center;
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
       flex-direction: column;
+      text-align: center;
     }
 
     .start-button {
@@ -31,6 +33,7 @@
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       transition: background 0.3s;
+      margin-top: 20px;
     }
 
     .start-button:hover {
@@ -40,29 +43,57 @@
     #mainContent {
       display: none;
       padding: 20px;
+      position: relative;
     }
+
+    .decorations {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      font-size: 20px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .left-decor { left: 5px; }
+    .right-decor { right: 5px; }
 
     .slideshow-container {
       position: relative;
-      max-width: 600px;
+      width: 90%;
+      max-width: 500px;
       margin: auto;
+      border-radius: 15px;
+      overflow: hidden;
     }
 
-    .slides {
-      display: none;
+    .fade {
+      position: absolute;
       width: 100%;
-      border-radius: 15px;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .fade.active {
+      opacity: 1;
+      position: relative;
     }
 
     .message {
-      font-size: 20px;
-      margin: 30px 0;
-      padding: 0 20px;
+      font-size: 18px;
+      margin: 30px auto;
+      padding: 0 15px;
+      max-width: 800px;
+      text-align: center;
     }
 
     video {
-      width: 80%;
-      max-width: 600px;
+      width: 90%;
+      max-width: 500px;
       margin: 20px auto;
       display: block;
       border-radius: 15px;
@@ -77,7 +108,8 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin-top: 30px;
+      margin: 30px auto;
+      display: block;
       transition: background 0.3s;
     }
 
@@ -86,9 +118,10 @@
     }
 
     .kiss {
-      position: absolute;
+      position: fixed;
       font-size: 24px;
-      animation: floatKiss 2s linear forwards;
+      animation: floatKiss 3s linear forwards;
+      z-index: 1000;
     }
 
     @keyframes floatKiss {
@@ -103,41 +136,78 @@
     }
 
     .loveText {
-      margin-top: 20px;
-      font-size: 24px;
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px;
       color: #ff1493;
       font-weight: bold;
-      animation: glow 2s infinite alternate;
+      text-shadow: 0 0 10px #ff69b4, 0 0 30px #ff69b4;
+      animation: pulse 2s infinite;
+      z-index: 999;
+      display: none;
     }
 
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #ff69b4;
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    canvas#confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @media (max-width: 600px) {
+      .start-button {
+        font-size: 18px;
+        padding: 12px 20px;
       }
-      to {
-        text-shadow: 0 0 20px #ff1493, 0 0 30px #ff1493;
+
+      .loveText {
+        font-size: 24px;
       }
     }
   </style>
 </head>
 <body>
 
-<div class="start-screen">
-  <h1>🎂 Happy Birthday!</h1>
-  <button class="start-button" onclick="showContent()">Start the Surprise 🎉</button>
+<!-- Confetti Canvas -->
+<canvas id="confetti"></canvas>
+
+<!-- Decorations -->
+<div class="decorations left-decor">
+  <div>🎂</div><div>🌸</div><div>🎂</div><div>🌸</div>
+</div>
+<div class="decorations right-decor">
+  <div>🌸</div><div>🎂</div><div>🌸</div><div>🎂</div>
 </div>
 
+<!-- Start Screen -->
+<div class="start-screen">
+  <h1>🎉 Happy Birthday My Love 💖</h1>
+  <button class="start-button" onclick="startExperience()">Start the Surprise 🎁</button>
+</div>
+
+<!-- Main Content -->
 <div id="mainContent">
   <!-- Slideshow -->
   <div class="slideshow-container">
-    <img class="slides" src="img1.jpg">
-    <img class="slides" src="img2.jpg">
-    <img class="slides" src="img3.jpg">
-    <img class="slides" src="img4.jpg">
-    <img class="slides" src="img5.jpg">
-    <img class="slides" src="img6.jpg">
-    <img class="slides" src="img7.jpg">
-    <img class="slides" src="img8.jpg">
+    <img class="fade active" src="img1.jpg">
+    <img class="fade" src="img2.jpg">
+    <img class="fade" src="img3.jpg">
+    <img class="fade" src="img4.jpg">
+    <img class="fade" src="img5.jpg">
+    <img class="fade" src="img6.jpg">
+    <img class="fade" src="img7.jpg">
+    <img class="fade" src="img8.jpg">
   </div>
 
   <!-- Message -->
@@ -152,51 +222,95 @@
   </div>
 
   <!-- Videos -->
-  <video controls>
+  <video id="vid1" autoplay muted>
     <source src="vid1.mp4" type="video/mp4">
-    Your browser does not support the video tag.
   </video>
 
-  <video controls>
+  <video id="vid2" muted>
     <source src="vid2.mp4" type="video/mp4">
-    Your browser does not support the video tag.
   </video>
 
   <!-- Kiss Button -->
   <button id="kissButton" onclick="sendKisses()">Click Me 💋</button>
-  <div class="loveText" id="loveText"></div>
 </div>
 
+<!-- Love Message -->
+<div class="loveText" id="loveText">HAPPY 21, I LOVE YOU</div>
+
+<!-- Audio -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mp3" />
+</audio>
+
+<!-- Script -->
 <script>
-  function showContent() {
+  function startExperience() {
     document.querySelector('.start-screen').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('bgMusic').play();
+    launchConfetti();
   }
 
+  // Slideshow
   let slideIndex = 0;
-  showSlides();
+  const slides = document.querySelectorAll(".fade");
   function showSlides() {
-    let slides = document.getElementsByClassName("slides");
-    for (let i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) { slideIndex = 1 }
-    slides[slideIndex - 1].style.display = "block";
-    setTimeout(showSlides, 2000); // Change every 2 seconds
+    slides.forEach(slide => slide.classList.remove("active"));
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add("active");
+    setTimeout(showSlides, 3000);
   }
+  showSlides();
 
+  // Video chain
+  document.getElementById('vid1').addEventListener('ended', () => {
+    document.getElementById('vid2').play();
+  });
+
+  // Kisses
   function sendKisses() {
-    for (let i = 0; i < 10; i++) {
+    const loveText = document.getElementById("loveText");
+    loveText.style.display = "block";
+    for (let i = 0; i < 50; i++) {
       let kiss = document.createElement("div");
       kiss.className = "kiss";
       kiss.innerText = "💋";
       kiss.style.left = Math.random() * 100 + "vw";
-      kiss.style.top = Math.random() * 80 + "vh";
+      kiss.style.top = Math.random() * 100 + "vh";
       document.body.appendChild(kiss);
-      setTimeout(() => kiss.remove(), 2000);
+      setTimeout(() => kiss.remove(), 3000);
     }
-    document.getElementById("loveText").innerText = "HAPPY 21, I LOVE YOU";
+  }
+
+  // Confetti (simple canvas version)
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let pieces = [], w = window.innerWidth, h = window.innerHeight;
+    canvas.width = w; canvas.height = h;
+    for (let i = 0; i < 100; i++) {
+      pieces.push({
+        x: Math.random() * w,
+        y: Math.random() * h - h,
+        size: Math.random() * 6 + 4,
+        speed: Math.random() * 3 + 2,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`
+      });
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, w, h);
+      for (let p of pieces) {
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+        ctx.fill();
+        p.y += p.speed;
+        if (p.y > h) p.y = -10;
+      }
+      requestAnimationFrame(update);
+    }
+    update();
   }
 </script>
 
