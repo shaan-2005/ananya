@@ -1,37 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Happy Birthday, My Love! 🎂</title>
+  <meta charset="UTF-8">
+  <title>Happy Birthday 💖</title>
   <style>
     body {
-      background: linear-gradient(to right, #ffafbd, #ffc3a0);
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff0f5;
+      color: #333;
       text-align: center;
-      padding: 50px;
-      font-family: 'Arial', sans-serif;
     }
-    h1 {
-      font-size: 3em;
-      color: #fff;
+
+    .start-screen {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
+      flex-direction: column;
     }
-    p {
-      font-size: 1.5em;
-      color: #fff;
+
+    .start-button {
+      font-size: 24px;
+      padding: 16px 32px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s;
     }
-    .heart {
-      font-size: 3em;
-      animation: pulse 1s infinite;
+
+    .start-button:hover {
+      background-color: #ff1493;
     }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+
+    #mainContent {
+      display: none;
+      padding: 20px;
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .slides {
+      display: none;
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .message {
+      font-size: 20px;
+      margin: 30px 0;
+      padding: 0 20px;
+    }
+
+    video {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    #kissButton {
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background 0.3s;
+    }
+
+    #kissButton:hover {
+      background-color: #ff1493;
+    }
+
+    .kiss {
+      position: absolute;
+      font-size: 24px;
+      animation: floatKiss 2s linear forwards;
+    }
+
+    @keyframes floatKiss {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-200px) scale(2);
+      }
+    }
+
+    .loveText {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #ff1493;
+      font-weight: bold;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #ff69b4;
+      }
+      to {
+        text-shadow: 0 0 20px #ff1493, 0 0 30px #ff1493;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Happy Birthday, My Love! 🎉</h1>
-  <p>Wishing you endless happiness, joy, and love today and always. ❤️</p>
-  <div class="heart">💖</div>
+
+<div class="start-screen">
+  <h1>🎂 Happy Birthday!</h1>
+  <button class="start-button" onclick="showContent()">Start the Surprise 🎉</button>
+</div>
+
+<div id="mainContent">
+  <!-- Slideshow -->
+  <div class="slideshow-container">
+    <img class="slides" src="img1.jpg">
+    <img class="slides" src="img2.jpg">
+    <img class="slides" src="img3.jpg">
+    <img class="slides" src="img4.jpg">
+    <img class="slides" src="img5.jpg">
+    <img class="slides" src="img6.jpg">
+    <img class="slides" src="img7.jpg">
+    <img class="slides" src="img8.jpg">
+  </div>
+
+  <!-- Message -->
+  <div class="message">
+    From the moment we met, you’ve filled my life with laughter, warmth, and endless love.<br>
+    Watching you grow, dream, and shine makes me the proudest person alive.<br>
+    Every photo, every video here is a memory I cherish with all my heart.<br>
+    You are magic wrapped in a smile, and I’m lucky to call you mine.<br>
+    On your 21st, I just want to say thank you — for being you.<br>
+    I hope this little surprise makes you smile just like you make me smile every day.<br>
+    Happy Birthday, my love. 💖
+  </div>
+
+  <!-- Videos -->
+  <video controls>
+    <source src="vid1.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <video controls>
+    <source src="vid2.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Kiss Button -->
+  <button id="kissButton" onclick="sendKisses()">Click Me 💋</button>
+  <div class="loveText" id="loveText"></div>
+</div>
+
+<script>
+  function showContent() {
+    document.querySelector('.start-screen').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  }
+
+  let slideIndex = 0;
+  showSlides();
+  function showSlides() {
+    let slides = document.getElementsByClassName("slides");
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1 }
+    slides[slideIndex - 1].style.display = "block";
+    setTimeout(showSlides, 2000); // Change every 2 seconds
+  }
+
+  function sendKisses() {
+    for (let i = 0; i < 10; i++) {
+      let kiss = document.createElement("div");
+      kiss.className = "kiss";
+      kiss.innerText = "💋";
+      kiss.style.left = Math.random() * 100 + "vw";
+      kiss.style.top = Math.random() * 80 + "vh";
+      document.body.appendChild(kiss);
+      setTimeout(() => kiss.remove(), 2000);
+    }
+    document.getElementById("loveText").innerText = "HAPPY 21, I LOVE YOU";
+  }
+</script>
+
 </body>
 </html>
