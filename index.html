@@ -249,31 +249,57 @@
   }
 
   // Slideshow
+  <script>
   let slideIndex = 0;
   const slides = document.querySelectorAll(".fade");
+
   function showSlides() {
-    slides.forEach(slide => slide.classList.remove("active"));
+    slides.forEach((slide, index) => {
+      slide.classList.remove("active");
+      if (index === slideIndex) {
+        slide.classList.add("active");
+      }
+    });
+
     slideIndex = (slideIndex + 1) % slides.length;
-    slides[slideIndex].classList.add("active");
-    setTimeout(showSlides, 3000);
+    setTimeout(showSlides, 3000); // Change slide every 3s
   }
+
   showSlides();
+</script>
 
   // Kisses + Fireworks
   function sendKisses() {
-    const loveText = document.getElementById("loveText");
-    loveText.style.display = "block";
-    for (let i = 0; i < 50; i++) {
-      let kiss = document.createElement("div");
-      kiss.className = "kiss";
-      kiss.innerText = "💋";
-      kiss.style.left = Math.random() * 100 + "vw";
-      kiss.style.top = Math.random() * 100 + "vh";
-      document.body.appendChild(kiss);
-      setTimeout(() => kiss.remove(), 3000);
-    }
-    launchFireworks();
+  const loveText = document.getElementById("loveText");
+  loveText.style.display = "block";
+
+  // Hide loveText after 4 seconds
+  setTimeout(() => {
+    loveText.style.display = "none";
+  }, 4000);
+
+  // Generate a lot more kisses (e.g., 200)
+  const totalKisses = 200;
+  const kissElements = [];
+
+  for (let i = 0; i < totalKisses; i++) {
+    let kiss = document.createElement("div");
+    kiss.className = "kiss";
+    kiss.innerText = "💋";
+    kiss.style.left = Math.random() * 100 + "vw";
+    kiss.style.top = Math.random() * 100 + "vh";
+    document.body.appendChild(kiss);
+    kissElements.push(kiss);
   }
+
+  // Remove all kisses after 4 seconds
+  setTimeout(() => {
+    kissElements.forEach(k => k.remove());
+  }, 4000);
+
+  // Launch fireworks
+  launchFireworks();
+}
 
   // Confetti
   function launchConfetti() {
