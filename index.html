@@ -54,7 +54,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      font-size: 20px;
+      font-size: 24px;
       z-index: 1;
       pointer-events: none;
     }
@@ -84,29 +84,21 @@
     }
 
     .message {
-      font-size: 18px;
-      margin: 30px auto;
+      font-size: 22px;
+      margin: 40px auto;
       padding: 0 15px;
       max-width: 800px;
       text-align: center;
-    }
-
-    video {
-      width: 90%;
-      max-width: 500px;
-      margin: 20px auto;
-      display: block;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      line-height: 1.8;
     }
 
     #kissButton {
-      padding: 12px 24px;
-      font-size: 18px;
+      padding: 16px 28px;
+      font-size: 20px;
       background-color: #ff69b4;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       margin: 30px auto;
       display: block;
@@ -119,7 +111,7 @@
 
     .kiss {
       position: fixed;
-      font-size: 24px;
+      font-size: 28px;
       animation: floatKiss 3s linear forwards;
       z-index: 1000;
     }
@@ -140,7 +132,7 @@
       top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 36px;
+      font-size: 42px;
       color: #ff1493;
       font-weight: bold;
       text-shadow: 0 0 10px #ff69b4, 0 0 30px #ff69b4;
@@ -165,6 +157,14 @@
       z-index: 0;
     }
 
+    canvas#fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
     @media (max-width: 600px) {
       .start-button {
         font-size: 18px;
@@ -172,15 +172,19 @@
       }
 
       .loveText {
-        font-size: 24px;
+        font-size: 28px;
+      }
+
+      .message {
+        font-size: 18px;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- Confetti Canvas -->
 <canvas id="confetti"></canvas>
+<canvas id="fireworks"></canvas>
 
 <!-- Decorations -->
 <div class="decorations left-decor">
@@ -208,27 +212,20 @@
     <img class="fade" src="img6.jpg">
     <img class="fade" src="img7.jpg">
     <img class="fade" src="img8.jpg">
+    <img class="fade" src="img9.jpg">
+    <img class="fade" src="img10.jpg">
   </div>
 
   <!-- Message -->
   <div class="message">
     From the moment we met, you’ve filled my life with laughter, warmth, and endless love.<br>
     Watching you grow, dream, and shine makes me the proudest person alive.<br>
-    Every photo, every video here is a memory I cherish with all my heart.<br>
+    Every photo here is a memory I cherish with all my heart.<br>
     You are magic wrapped in a smile, and I’m lucky to call you mine.<br>
     On your 21st, I just want to say thank you — for being you.<br>
     I hope this little surprise makes you smile just like you make me smile every day.<br>
     Happy Birthday, my love. 💖
   </div>
-
-  <!-- Videos -->
-  <video id="vid1" autoplay muted>
-    <source src="vid1.mp4" type="video/mp4">
-  </video>
-
-  <video id="vid2" muted>
-    <source src="vid2.mp4" type="video/mp4">
-  </video>
 
   <!-- Kiss Button -->
   <button id="kissButton" onclick="sendKisses()">Click Me 💋</button>
@@ -242,7 +239,7 @@
   <source src="music.mp3" type="audio/mp3" />
 </audio>
 
-<!-- Script -->
+<!-- Scripts -->
 <script>
   function startExperience() {
     document.querySelector('.start-screen').style.display = 'none';
@@ -262,12 +259,7 @@
   }
   showSlides();
 
-  // Video chain
-  document.getElementById('vid1').addEventListener('ended', () => {
-    document.getElementById('vid2').play();
-  });
-
-  // Kisses
+  // Kisses + Fireworks
   function sendKisses() {
     const loveText = document.getElementById("loveText");
     loveText.style.display = "block";
@@ -280,18 +272,20 @@
       document.body.appendChild(kiss);
       setTimeout(() => kiss.remove(), 3000);
     }
+    launchFireworks();
   }
 
-  // Confetti (simple canvas version)
+  // Confetti
   function launchConfetti() {
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
-    let pieces = [], w = window.innerWidth, h = window.innerHeight;
-    canvas.width = w; canvas.height = h;
-    for (let i = 0; i < 100; i++) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let pieces = [];
+    for (let i = 0; i < 50; i++) {
       pieces.push({
-        x: Math.random() * w,
-        y: Math.random() * h - h,
+        x: Math.random() * canvas.width,
+        y: Math.random() * -canvas.height,
         size: Math.random() * 6 + 4,
         speed: Math.random() * 3 + 2,
         color: `hsl(${Math.random() * 360}, 70%, 60%)`
@@ -299,18 +293,58 @@
     }
 
     function update() {
-      ctx.clearRect(0, 0, w, h);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let p of pieces) {
         ctx.fillStyle = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
         ctx.fill();
         p.y += p.speed;
-        if (p.y > h) p.y = -10;
+        if (p.y > canvas.height) p.y = -10;
       }
       requestAnimationFrame(update);
     }
     update();
+  }
+
+  // Fireworks
+  function launchFireworks() {
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    for (let i = 0; i < 100; i++) {
+      particles.push({
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        angle: Math.random() * 2 * Math.PI,
+        speed: Math.random() * 5 + 2,
+        radius: Math.random() * 2 + 1,
+        color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+        life: 100
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of particles) {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.life -= 1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      }
+      requestAnimationFrame(() => {
+        if (particles[0].life > 0) animate();
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+    animate();
   }
 </script>
 
