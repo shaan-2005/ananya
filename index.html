@@ -218,21 +218,22 @@
 
   <!-- Message -->
   <div class="message">
-    HAPPY BIRTHDAY ANANYAAAA,
-I'm writing this a day before your birthday so I’m not sure if you're still mad at me while you read this 😅.
-Please mujhse kam lada kar 😂🙏🏻
+    HAPPY BIRTHDAY ANANYAAAA,<br>
+    I'm writing this a day before your birthday so I’m not sure if you're still mad at me while you read this 😅.<br>
+    Please mujhse kam lada kar 😂🙏🏻<br><br>
 
-So happy birthday and I love you!!! Dekh bol diya 😂
-Enjoy your day and infact enjoy every single day of your life. And , faaltu cheeze ki zyada tension mat liya kar 
+    So happy birthday and I love you!!! Dekh bol diya 😂<br>
+    Enjoy your day and infact enjoy every single day of your life.<br>
+    And faaltu cheeze ki zyada tension mat liya kar.<br><br>
 
-Also you’re SO old now 😂 (mazaak mazaak... thoda hi).
-    
-I hope you have your volume up and I hope you understand why I used this song 😂
+    Also you’re SO old now 😂 (mazaak mazaak... thoda hi).<br><br>
 
-I really can’t wait to meet you in a few days, it’s been way too long and I miss you way too much.
-Just remember, I’m really really lucky to have you by my side , thank you for being the most wonderful part of my life.
+    I hope you have your volume up and I hope you understand why I used this song 😂<br><br>
 
-So once again, Happy Birthday and I love you 💗
+    I really can’t wait to meet you in a few days, it’s been way too long and I miss you way too much.<br>
+    Just remember, I’m really really lucky to have you by my side. Thank you for being the most wonderful part of my life.<br><br>
+
+    So once again, Happy Birthday and I love you 💗
   </div>
 
   <!-- Kiss Button -->
@@ -248,16 +249,15 @@ So once again, Happy Birthday and I love you 💗
 </audio>
 
 <!-- Scripts -->
-script>
+<script>
   function startExperience() {
     document.querySelector('.start-screen').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
     document.getElementById('bgMusic').play();
     launchConfetti();
-    showSlides(); // Start slideshow when experience starts
+    showSlides();
   }
 
-  // Slideshow
   let slideIndex = 0;
   let slides;
 
@@ -272,49 +272,43 @@ script>
     });
 
     slideIndex = (slideIndex + 1) % slides.length;
-    setTimeout(showSlides, 3000); // Loop forever
+    setTimeout(showSlides, 3000); // Loop every 3s
   }
-</script>
 
-  // Kisses + Fireworks
   function sendKisses() {
-  const loveText = document.getElementById("loveText");
-  loveText.style.display = "block";
+    const loveText = document.getElementById("loveText");
+    loveText.style.display = "block";
 
-  // Hide loveText after 4 seconds
-  setTimeout(() => {
-    loveText.style.display = "none";
-  }, 4000);
+    setTimeout(() => {
+      loveText.style.display = "none";
+    }, 4000);
 
-  // Generate a lot more kisses (e.g., 200)
-  const totalKisses = 200;
-  const kissElements = [];
+    const totalKisses = 200;
+    const kissElements = [];
 
-  for (let i = 0; i < totalKisses; i++) {
-    let kiss = document.createElement("div");
-    kiss.className = "kiss";
-    kiss.innerText = "💋";
-    kiss.style.left = Math.random() * 100 + "vw";
-    kiss.style.top = Math.random() * 100 + "vh";
-    document.body.appendChild(kiss);
-    kissElements.push(kiss);
+    for (let i = 0; i < totalKisses; i++) {
+      let kiss = document.createElement("div");
+      kiss.className = "kiss";
+      kiss.innerText = "💋";
+      kiss.style.left = Math.random() * 100 + "vw";
+      kiss.style.top = Math.random() * 100 + "vh";
+      document.body.appendChild(kiss);
+      kissElements.push(kiss);
+    }
+
+    setTimeout(() => {
+      kissElements.forEach(k => k.remove());
+    }, 4000);
+
+    launchFireworks();
   }
 
-  // Remove all kisses after 4 seconds
-  setTimeout(() => {
-    kissElements.forEach(k => k.remove());
-  }, 4000);
-
-  // Launch fireworks
-  launchFireworks();
-}
-
-  // Confetti
   function launchConfetti() {
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
     let pieces = [];
     for (let i = 0; i < 50; i++) {
       pieces.push({
@@ -338,10 +332,10 @@ script>
       }
       requestAnimationFrame(update);
     }
+
     update();
   }
 
-  // Fireworks
   function launchFireworks() {
     const canvas = document.getElementById('fireworks');
     const ctx = canvas.getContext('2d');
@@ -378,6 +372,7 @@ script>
         else ctx.clearRect(0, 0, canvas.width, canvas.height);
       });
     }
+
     animate();
   }
 </script>
